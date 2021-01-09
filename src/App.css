@@ -1,0 +1,45 @@
+.App {
+  margin: 1rem auto 0;
+  width: 30rem;
+}
+
+.btn {
+  border: 0.125rem solid #eee;
+  border-radius: 0.5rem;
+  padding: 0.5625rem 1rem;
+  text-transform: uppercase;
+}
+
+.flex-container {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.location-form {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.text-input {
+  margin-right: 1rem;
+  border: 0.125rem solid #eee;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: normal;
+  padding: 0.5rem;
+}
+
+input,
+label {
+  color: #333;
+  display: block;
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .App {
+    width: 90vw;
+  }
+}
