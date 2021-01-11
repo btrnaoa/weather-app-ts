@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
+import './css/weather-icons.css';
+import WeatherCard from './components/WeatherCard';
 
 export default function App() {
   const [location, setLocation] = useState('');
@@ -29,6 +31,13 @@ export default function App() {
         </label>
         <input className="btn" type="submit" value="Go" />
       </form>
+      <div className="container">
+        <WeatherCard />
+        <WeatherCard />
+        <WeatherCard />
+        <WeatherCard />
+        <WeatherCard />
+      </div>
     </div>
   );
 }

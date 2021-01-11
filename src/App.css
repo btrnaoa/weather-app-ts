@@ -1,6 +1,7 @@
 .App {
   margin: 1rem auto 0;
-  width: 30rem;
+  max-width: 30rem;
+  color: #333;
 }
 
 .btn {
@@ -8,11 +9,6 @@
   border-radius: 0.5rem;
   padding: 0.5625rem 1rem;
   text-transform: uppercase;
-}
-
-.flex-container {
-  display: flex;
-  margin-bottom: 1rem;
 }
 
 .location-form {
@@ -32,10 +28,39 @@
 
 input,
 label {
-  color: #333;
   display: block;
   font-size: 0.875rem;
   font-weight: bold;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+  gap: 1rem;
+}
+
+.weather-card {
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 4rem;
+  height: 10rem;
+}
+
+.weather-icon {
+  font-size: 2.5rem;
+}
+
+.temps {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.muted {
+  color: #666;
 }
 
 @media (max-width: 768px) {
