@@ -1,6 +1,6 @@
 .App {
   margin: 1rem auto 0;
-  max-width: 30rem;
+  max-width: 48rem;
   color: #333;
 }
 
@@ -35,8 +35,8 @@ label {
 
 .container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
+  row-gap: 1rem;
 }
 
 .weather-card {
