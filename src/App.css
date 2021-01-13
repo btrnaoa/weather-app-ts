@@ -11,6 +11,11 @@
   text-transform: uppercase;
 }
 
+.location {
+  margin-top: 1rem;
+  text-align: center;
+}
+
 .location-form {
   display: flex;
   justify-content: center;

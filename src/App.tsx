@@ -22,10 +22,16 @@ interface Weather {
     lon: number;
     lat: number;
   };
+  sys: {
+    country: string;
+  };
+  name: string;
   id: number;
 }
 
 const useFetch = (query: string) => {
+  const [city, setCity] = useState('');
+  const [country, setCountry] = useState('');
   const [forecast, setForecast] = useState<Forecast | null>(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -37,6 +43,8 @@ const useFetch = (query: string) => {
         );
         const weather: Weather = await response1.json();
         const { lon, lat } = weather.coord;
+        setCity(weather.name);
+        setCountry(weather.sys.country);
 
         // One Call API only accepts lat long coords so I used OWM's other API to get the coords by city name instead of signing up for another API key just for geocoding 😬
         const response2 = await fetch(
@@ -54,7 +62,7 @@ const useFetch = (query: string) => {
       fetchData();
     }
   }, [query]);
-  return { forecast, error, isLoading };
+  return { city, country, forecast, error, isLoading };
 };
 
 export default function App() {
@@ -89,6 +97,9 @@ export default function App() {
         </label>
         <input className="btn" type="submit" value="Go" />
       </form>
+      <div className="location">
+        {!weather.isLoading && `${weather.city}, ${weather.country}`}
+      </div>
       <div className="container">
         {weather.forecast?.daily.map((item) => {
           const time = item.dt + weather.forecast!.timezone_offset;
