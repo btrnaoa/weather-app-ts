@@ -8,21 +8,17 @@ const API_KEY = process.env.REACT_APP_API_KEY;
 interface Forecast {
   city: string;
   country: string;
-  daily: Daily[];
+  daily: {
+    dt: number;
+    temp: {
+      min: number;
+      max: number;
+    };
+    weather: {
+      id: number;
+    }[];
+  }[];
   timezone_offset: number;
-}
-
-interface Daily {
-  dt: number;
-  temp: {
-    min: number;
-    max: number;
-  };
-  weather: Weather[];
-}
-
-interface Weather {
-  id: number;
 }
 
 interface CurrentWeatherData {
@@ -51,7 +47,7 @@ const useFetch = (query: string) => {
           `https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=${API_KEY}`,
         );
         const data: CurrentWeatherData = await res1.json();
-        const { cod, message, coord, sys, name } = data;
+        const { cod, message, coord, name, sys } = data;
 
         if (cod !== 200 && message) {
           throw new Error(message);
