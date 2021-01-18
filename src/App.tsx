@@ -91,7 +91,7 @@ export default function App() {
     setLocation(e.target.value);
   };
 
-  const { forecast, error } = useFetch(query);
+  const { forecast, error, isLoading } = useFetch(query);
 
   return (
     <div className="App">
@@ -109,6 +109,7 @@ export default function App() {
         </label>
         <input className="btn" type="submit" value="Go" />
       </form>
+      {isLoading && <span className="heading">Loading...</span>}
       {error && (
         <div className="error-badge">
           <span>{error.message}</span>
