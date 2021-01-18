@@ -1,6 +1,8 @@
 .App {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
   color: #333;
-  margin: 1rem auto 0;
   max-width: 48rem;
 }
 
@@ -11,17 +13,29 @@
   padding: 0.375rem 1rem;
 }
 
+.error-badge {
+  text-align: center;
+}
+
+.error-badge span {
+  background: lightcoral;
+  border-radius: 0.5rem;
+  color: maroon;
+  font-size: 0.875rem;
+  padding: 0.25rem 0.5rem;
+}
+
+.heading {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
 .location-form {
   display: flex;
   justify-content: center;
   align-items: flex-end;
-}
-
-.status {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-top: 1rem;
-  text-align: center;
+  margin: 0.5rem 0;
 }
 
 .text-input {

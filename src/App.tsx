@@ -5,6 +5,20 @@ import WeatherCard from './components/WeatherCard';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
+interface CurrentWeatherData {
+  cod: number;
+  coord: {
+    lat: number;
+    lon: number;
+  };
+  id: number;
+  message: string;
+  name: string;
+  sys: {
+    country: string;
+  };
+}
+
 interface Forecast {
   city: string;
   country: string;
@@ -21,27 +35,15 @@ interface Forecast {
   timezone_offset: number;
 }
 
-interface CurrentWeatherData {
-  cod: number;
-  coord: {
-    lon: number;
-    lat: number;
-  };
-  id: number;
-  message: string;
-  name: string;
-  sys: {
-    country: string;
-  };
-}
-
 const useFetch = (query: string) => {
   const [forecast, setForecast] = useState<Forecast | null>(null);
   const [error, setError] = useState<Error | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
+    setForecast(null);
     setError(null);
     const fetchData = async () => {
+      setIsLoading(true);
       try {
         const res1 = await fetch(
           `https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=${API_KEY}`,
@@ -81,7 +83,7 @@ export default function App() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setQuery(location);
+    setQuery(location.trim());
     setLocation('');
   };
 
@@ -89,7 +91,7 @@ export default function App() {
     setLocation(e.target.value);
   };
 
-  const weatherData = useFetch(query);
+  const { forecast, error } = useFetch(query);
 
   return (
     <div className="App">
@@ -107,28 +109,34 @@ export default function App() {
         </label>
         <input className="btn" type="submit" value="Go" />
       </form>
-      <div className="status">
-        {!weatherData.error
-          ? !weatherData.isLoading &&
-            `${weatherData.forecast?.city}, ${weatherData.forecast?.country}`
-          : weatherData.error.message}
-      </div>
-      <div className="container">
-        {weatherData.forecast?.daily.map((item) => {
-          const time = item.dt + weatherData.forecast!.timezone_offset;
-          const { min, max } = item.temp;
-          const weatherId = item.weather[0].id;
-          return (
-            <WeatherCard
-              key={time}
-              time={time}
-              min={min}
-              max={max}
-              weatherId={weatherId}
-            />
-          );
-        })}
-      </div>
+      {error && (
+        <div className="error-badge">
+          <span>{error.message}</span>
+        </div>
+      )}
+      {forecast && (
+        <>
+          <span className="heading">
+            {`${forecast.city}, ${forecast.country}`}
+          </span>
+          <div className="container">
+            {forecast.daily.map((item) => {
+              const time = item.dt + forecast!.timezone_offset;
+              const { min, max } = item.temp;
+              const weatherId = item.weather[0].id;
+              return (
+                <WeatherCard
+                  key={time}
+                  time={time}
+                  min={min}
+                  max={max}
+                  weatherId={weatherId}
+                />
+              );
+            })}
+          </div>
+        </>
+      )}
     </div>
   );
 }
