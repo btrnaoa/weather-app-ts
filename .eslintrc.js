@@ -1,5 +1,6 @@
 module.exports = {
   root: true,
+  parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
   extends: [
     'react-app',
@@ -10,6 +11,7 @@ module.exports = {
     'prettier/react',
   ],
   parserOptions: {
-    project: './tsconfig.eslint.json',
+    project: './tsconfig.json',
   },
+  ignorePatterns: ['.eslintrc.js'],
 };
