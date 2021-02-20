@@ -81,50 +81,44 @@ export default function App() {
   const [location, setLocation] = useState('');
   const [query, setQuery] = useState('');
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setQuery(location.trim());
-    setLocation('');
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLocation(e.target.value);
-  };
-
   const { forecast, error, isLoading } = useFetch(query);
 
   return (
-    <div className="App">
-      <form className="location-form" onSubmit={handleSubmit}>
-        <label htmlFor="location">
+    <>
+      <form
+        className="search-form"
+        onSubmit={(event) => {
+          event.preventDefault();
+          setQuery(location);
+          setLocation('');
+        }}
+      >
+        <label className="text-label" htmlFor="location">
           Location
           <input
             className="text-input"
-            type="text"
             id="location"
+            type="text"
             placeholder="e.g. Melbourne, AU"
             value={location}
-            onChange={handleChange}
+            onChange={(event) => setLocation(event.target.value)}
+            required
           />
         </label>
-        <input className="btn" type="submit" value="Go" />
+        <button className="btn" type="submit">
+          Search
+        </button>
       </form>
-      {isLoading && <span className="heading">Loading...</span>}
-      {error && (
-        <div className="error-badge">
-          <span>{error.message}</span>
-        </div>
-      )}
+      {isLoading && <div className="display-heading">Loading...</div>}
+      {error && <div className="display-heading">{error.message}</div>}
       {forecast && (
         <>
-          <span className="heading">
-            {`${forecast.city}, ${forecast.country}`}
-          </span>
-          <div className="container">
-            {forecast.daily.map((item) => {
-              const time = item.dt + forecast!.timezone_offset;
-              const { min, max } = item.temp;
-              const weatherId = item.weather[0].id;
+          <h1 className="display-heading">{`${forecast.city}, ${forecast.country}`}</h1>
+          <div className="grid-container">
+            {forecast.daily.map(({ dt, temp, weather }) => {
+              const time = dt + forecast.timezone_offset;
+              const { min, max } = temp;
+              const weatherId = weather[0].id;
               return (
                 <WeatherCard
                   key={time}
@@ -138,6 +132,6 @@ export default function App() {
           </div>
         </>
       )}
-    </div>
+    </>
   );
 }
