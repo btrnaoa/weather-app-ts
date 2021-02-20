@@ -56,14 +56,16 @@ const useFetch = (query: string) => {
         }
 
         const { lon, lat } = coord;
+        const { country } = sys;
         const res2 = await fetch(
           `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${API_KEY}&exclude=current,minutely,hourly,alerts&units=metric`,
         );
         setForecast({
           ...(await res2.json()),
           city: name,
-          country: sys.country,
+          country,
         });
+        localStorage.setItem('query', `${name},${country}`);
       } catch (e) {
         setError(e);
       } finally {
@@ -79,7 +81,7 @@ const useFetch = (query: string) => {
 
 export default function App() {
   const [location, setLocation] = useState('');
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(localStorage.getItem('query') || '');
 
   const { forecast, error, isLoading } = useFetch(query);
 
