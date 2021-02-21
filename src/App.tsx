@@ -5,20 +5,6 @@ import WeatherCard from './components/WeatherCard';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-interface CurrentWeatherData {
-  cod: number;
-  coord: {
-    lat: number;
-    lon: number;
-  };
-  id: number;
-  message: string;
-  name: string;
-  sys: {
-    country: string;
-  };
-}
-
 interface Forecast {
   city: string;
   country: string;
@@ -42,32 +28,26 @@ const useFetch = (query: string) => {
   useEffect(() => {
     setForecast(null);
     setError(null);
+    setIsLoading(true);
     const fetchData = async () => {
-      setIsLoading(true);
       try {
         const res1 = await fetch(
-          `https://api.openweathermap.org/data/2.5/weather?q=${query}&appid=${API_KEY}`,
+          `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${API_KEY}`,
         );
-        const data: CurrentWeatherData = await res1.json();
-        const { cod, message, coord, name, sys } = data;
+        const locations = await res1.json();
 
-        if (cod !== 200 && message) {
-          throw new Error(message);
+        if (!Array.isArray(locations) || locations.length === 0) {
+          throw new Error('Location not found');
         }
 
-        const { lon, lat } = coord;
-        const { country } = sys;
+        const { lat, lon, name, country } = locations[0];
         const res2 = await fetch(
           `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${API_KEY}&exclude=current,minutely,hourly,alerts&units=metric`,
         );
-        setForecast({
-          ...(await res2.json()),
-          city: name,
-          country,
-        });
         localStorage.setItem('query', `${name},${country}`);
-      } catch (e) {
-        setError(e);
+        setForecast({ ...(await res2.json()), city: name, country });
+      } catch (err) {
+        setError(err);
       } finally {
         setIsLoading(false);
       }
