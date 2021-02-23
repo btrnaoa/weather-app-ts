@@ -1,0 +1,31 @@
+.forecast-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #666;
+}
+
+.forecast-card-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.forecast-card-icon {
+  color: #333;
+  font-size: 2.25rem;
+}
+
+.forecast-card-temps {
+  display: flex;
+  justify-content: center;
+  font-weight: 600;
+  margin-top: 0.25rem;
+  width: 100%;
+}
+
+.forecast-card-temps *:last-child {
+  font-weight: 400;
+  margin-left: 0.5rem;
+}

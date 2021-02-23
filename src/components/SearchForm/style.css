@@ -1,0 +1,31 @@
+.search-form {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-top: 1rem;
+}
+
+.search-form-label {
+  font-size: 0.875rem;
+}
+
+.search-form-input {
+  display: block;
+  border: 1px solid #eee;
+  border-radius: 0.5rem;
+}
+
+.search-form-btn {
+  border: 1px solid #eee;
+  border-radius: 0.5rem;
+  color: #333;
+  font-weight: 600;
+  margin-left: 0.25rem;
+}
+
+.search-form-input,
+.search-form-btn {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+}
